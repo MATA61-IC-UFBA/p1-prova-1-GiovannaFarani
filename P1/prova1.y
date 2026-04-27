@@ -9,6 +9,7 @@ void yyerror(const char *msg);
 
 %}
 
+%token EOL 0
 %token ERROR
 %token NUM
 %token PLUS
@@ -47,6 +48,10 @@ stmt
 | PRINT LPAREN exprlist RPAREN
 | expr
 ;
+
+exprlist
+:   IDENT
+| expr
 
 expr
 : NUM

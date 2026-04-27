@@ -10,20 +10,20 @@ int yylex();
 %option noyywrap
 LETTER [a-zA-Z]
 DIGIT [0-9]
-
+ASP (\")
 IDENTIFIER {LETTER}({LETTER}|{DIGIT}|_)*
-CONCATENACAO {IDENTIFIER}+(\,{IDENTIFIER})+
+CONCATENACAO {IDENTIFIER}+(, {IDENTIFIER}|[{ASP}({IDENTIFIER}| ){ASP}]|DIGIT)+
 %%
 
 [0-9]+(\.[0-9]+)?   { return NUM;}
-(\/\/.)*            { }
+\/\/.*            { }
 "+"                 { return PLUS; }
 "-"                 { return MINUS; }
 "*"                 { return TIMES; }
 "/"                 { return DIV; }
 "("                 { return LPAREN;}
 ")"                 { return RPAREN;}
-"""                 { return ASPAS;}
+ASP                 { return ASPAS;}
 CONCATENACAO        { return CONCATENACAOF;}
 "print"             { return PRINT;}
 "concat"            { return CONCAT;}
