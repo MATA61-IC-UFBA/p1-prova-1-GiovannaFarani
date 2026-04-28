@@ -8,29 +8,33 @@ int yylex();
 %}
 
 %option noyywrap
+
 LETTER [a-zA-Z]
 DIGIT [0-9]
-ASP (\")
+ASP \"
+COMMENT \/\/.*
+WHITESPACE [ \n\t\r]
+
 IDENTIFIER {LETTER}({LETTER}|{DIGIT}|_)*
-CONCATENACAO {IDENTIFIER}+(, {IDENTIFIER}|[{ASP}({IDENTIFIER}| ){ASP}]|DIGIT)+
+
 %%
 
+{COMMENT}           { }
+{WHITESPACE}        { }
+
 [0-9]+(\.[0-9]+)?   { return NUM;}
-\/\/.*            { }
 "+"                 { return PLUS; }
 "-"                 { return MINUS; }
 "*"                 { return TIMES; }
 "/"                 { return DIV; }
 "("                 { return LPAREN;}
 ")"                 { return RPAREN;}
-ASP                 { return ASPAS;}
-CONCATENACAO        { return CONCATENACAOF;}
+"="                 { return ASSIGN;}
+","                 { return VIR;}
+{ASP}[^\"]*{ASP}     { return STRING;}
 "print"             { return PRINT;}
 "concat"            { return CONCAT;}
-"lenght"            { return LENGHT;}
+"length"            { return LENGTH;}
 {IDENTIFIER}        { return IDENT;}
-"="                 { return ASSIGN;}
-[ \t]+              { }
-\n                  { return EOL; }
 .                   { return ERROR; }
 %%

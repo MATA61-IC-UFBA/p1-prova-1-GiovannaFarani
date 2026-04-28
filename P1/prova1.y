@@ -16,13 +16,13 @@ void yyerror(const char *msg);
 %token MINUS
 %token TIMES
 %token DIV
+%token VIR
 %token LPAREN
 %token RPAREN
-%token ASPAS
-%token CONCATENACAOF
+%token STRING
 %token PRINT
 %token CONCAT
-%token LENGHT
+%token LENGTH
 %token IDENT
 %token ASSIGN
 
@@ -45,23 +45,27 @@ stmt_list
 
 stmt
 : IDENT ASSIGN expr
-| PRINT LPAREN exprlist RPAREN
+| PRINT LPAREN expr1 RPAREN
 | expr
 ;
 
-exprlist
-:   IDENT
-| expr
+
+expr1
+: expr
+|expr1 VIR expr
+;
 
 expr
 : NUM
+|IDENT
+|STRING
 |expr PLUS expr
 |expr MINUS expr
 |expr TIMES expr
 |expr DIV expr
-|LENGHT LPAREN exprlist RPAREN
-|CONCAT LPAREN CONCATENACAOF RPAREN
+|LENGTH LPAREN expr RPAREN
+|CONCAT LPAREN expr1 RPAREN
+|LPAREN expr RPAREN
 ;
 
 %%
-
